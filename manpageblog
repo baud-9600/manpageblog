@@ -222,6 +222,29 @@ def link_label(host):
     return '.'.join(parts[-2:]) if len(parts) >= 2 else host
 
 
+def see_also_from_config(config):
+    """ Build the SEE ALSO list from the [see_also] section of the config
+
+    Every option is one cross reference: the key is the label as it is shown,
+    the value is the link target.  A label without a section suffix gets "(7)"
+    for links inside the site and "(1)" for everything else.
+    """
+    if not config.has_section('see_also'):
+        return ''
+
+    entries = []
+    for label, target in config.items('see_also', raw=True):   # no %-interpolation in URLs
+        label, target = label.strip(), target.strip()
+        if not target:
+            continue
+        if not re.search(r'\(\d+\)$', label):
+            label = f'{label}({"7" if target.startswith("/") else "1"})'
+        entries.append(
+            f'<a href="{html.escape(target, quote=True)}">{html.escape(label)}</a>')
+
+    return ', '.join(entries)
+
+
 def make_notes(body, slug, site_url):
     """ Build a man page style NOTES list from the links of a page
 
@@ -513,7 +536,7 @@ def main():
 
     # Remap vars from config
     params = {
-        '_version': '1.8',
+        '_version': '1.9',
         'name': config['general']['name'],
         'description': config['general']['description'],
         'meta_keywords': config['general'].get('keywords', 'unknown'),
@@ -539,7 +562,7 @@ def main():
         'theme': config['processing'].get('theme', 'light'),
         'current_year': datetime.datetime.now().year,
         'notes': '',
-        'see_also': '',
+        'see_also': see_also_from_config(config),
         'date_published': "2025-01-04T15:52:42+0100",
         'slug': '',
         'date_modified': datetime.datetime.now(datetime.timezone.utc).astimezone().strftime('%Y-%m-%dT%H:%M:%S%z'),

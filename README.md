@@ -85,8 +85,19 @@ pages of the site become `<page>(7)`, external links become `<domain>(1)`,
 deduplicated and sorted by label. A page can override the list with a header of
 its own.
 
-`{{ see_also }}` is only filled from a `<!-- see_also: ... -->` header and can
-be used for hand picked cross references.
+`{{ see_also }}` is meant for hand picked cross references. They can be set in
+the configuration file, which makes them available on every page:
+
+```ini
+[see_also]
+rss(7) = /rss.xml
+github(1) = https://github.com/baud-9600
+irc(1) = irc://irc.libera.chat/example
+```
+
+The key is the label as it is printed, the value is the link target. Labels
+without a section suffix get `(7)` for links starting with `/` and `(1)` for
+everything else. A `<!-- see_also: ... -->` header still wins on that page.
 
 ```markdown
 <!-- notes: <a href="/">root(7)</a>, <a href="/library/">library(7)</a> -->

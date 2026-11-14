@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.9] - 2026-11-14
+
+### Added
+
+- Build the SEE ALSO list from a `[see_also]` section in the configuration
+  file, so the same cross references can be used on every page
+
+
 ## [1.8] - 2026-11-14
 
 ### Added
