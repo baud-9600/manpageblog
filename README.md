@@ -9,6 +9,7 @@
 - [General](#general)
 - [Usage](#usage)
   - [Pages and posts](#pages-and-posts)
+  - [NOTES and SEE ALSO](#notes-and-see-also)
   - [Static files](#static-files)
   - [Options](#options)
   - [Config File](#config-file)
@@ -75,6 +76,22 @@ Some text with a [link](https://example.org) and a footnote[^note].
 
 If a page does not define `title` or `meta_description`, the first `<h1>` or
 `<p>` of the rendered page is used, followed by the values from `[general]`.
+
+### NOTES and SEE ALSO
+Templates can render two kinds of man page style cross reference lists.
+
+`{{ notes }}` is generated from the links of the rendered page: links to other
+pages of the site become `<page>(7)`, external links become `<domain>(1)`,
+deduplicated and sorted by label. A page can override the list with a header of
+its own.
+
+`{{ see_also }}` is only filled from a `<!-- see_also: ... -->` header and can
+be used for hand picked cross references.
+
+```markdown
+<!-- notes: <a href="/">root(7)</a>, <a href="/library/">library(7)</a> -->
+<!-- see_also: <a href="/rss.xml">rss(7)</a>, <a href="https://github.com/baud-9600">github(1)</a> -->
+```
 
 ### Static files
 Everything in the optional `static` directory is copied to the root of the

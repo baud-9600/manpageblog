@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.8] - 2026-11-14
+
+### Added
+
+- Generate a `{{ notes }}` cross reference list from the links of a page
+  (external links as `<domain>(1)`, pages of the site as `<page>(7)`)
+- Generate a site wide RSS feed (`rss.xml`) from all rendered pages
+- `<!-- notes: ... -->` and `<!-- see_also: ... -->` headers override the
+  generated list and add hand picked cross references
+- Do not write an empty blog index and feed when there are no posts
+
+
 ## [1.7] - 2026-11-14
 
 ### Added
