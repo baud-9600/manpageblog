@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.7] - 2026-11-14
+
+### Added
+
+- Render Markdown pages from `content/*.md` (not only dated blog posts)
+- Support `content/_index.md` and `content/index.md` as the home page
+- Copy an optional `static` directory (`static_path`) to the output root
+- Support tables, strikethrough and autolinks in Markdown
+- Support footnotes and stable heading anchor ids (`#heading`, `#heading_1`)
+  when `mdit-py-plugins` is installed
+- Fall back to the first heading/paragraph for `title` and `meta_description`
+
+### Fixed
+
+- Include all pages in the sitemap instead of only the home page and posts
+- Use the file modification date for content without a date in its file name
+- Page URLs are passed to the sitemap instead of being guessed from the slug
+
+
 ## [1.6] - 2026-01-05
 
 ### Added

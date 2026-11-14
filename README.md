@@ -8,6 +8,8 @@
 ## Table of Content
 - [General](#general)
 - [Usage](#usage)
+  - [Pages and posts](#pages-and-posts)
+  - [Static files](#static-files)
   - [Options](#options)
   - [Config File](#config-file)
   - [Blog entries (elements)](#blog-entries-elements)
@@ -37,6 +39,48 @@ $> ./manpageblog
 This command directly creates an example blog within the subdirectory `docroot` by the given example content from `content`.
 
 Adding and modifying content is only done within the `content` directory. This approach makes it easy to obtain the content for the blog from a git repository. All content is provided by flat files like `.md` (Markdown) and/or `.html`.
+
+### Pages and posts
+Within `content` there are two kinds of content:
+
+* **Pages** - static pages like an imprint, a hardware list or an about page.
+  Markdown files in `content/` are rendered as `<slug>/index.html`, HTML files
+  are copied as they are. The home page is either `content/_index.html`,
+  `content/_index.md` or `content/index.md`.
+* **Posts** - blog entries in `content/blog/`, one Markdown file per post. The
+  file name starts with the date (`YYYY-MM-DD-slug.md`) and the post is
+  rendered as `blog/<slug>/index.html`, listed on the blog index page and
+  included in the RSS feed.
+
+Markdown is rendered with [markdown-it-py](https://github.com/executablebooks/markdown-it-py), so tables,
+strikethrough and automatic links work out of the box. If
+[mdit-py-plugins](https://github.com/executablebooks/mdit-py-plugins) is installed, footnotes are rendered as
+well, and every heading gets a stable anchor id (`#some-heading`,
+`#some-heading_1`, ... for duplicates) that can be linked from other pages.
+
+```markdown
+<!-- title: Hardware -->
+<!-- meta_description: The machines I run at home. -->
+
+# Hardware
+
+Some text with a [link](https://example.org) and a footnote[^note].
+
+| Component | Model |
+|-----------|-------|
+| Router    | ACME  |
+
+[^note]: Footnotes need mdit-py-plugins.
+```
+
+If a page does not define `title` or `meta_description`, the first `<h1>` or
+`<p>` of the rendered page is used, followed by the values from `[general]`.
+
+### Static files
+Everything in the optional `static` directory is copied to the root of the
+generated site after the pages have been rendered. This is the place for
+`robots.txt`, a `404.html`, favicons or other files that must keep their exact
+path. The directory name can be changed with `static_path` in `[processing]`.
 
 ### Options
 `manpageblog` supports the following options:
@@ -90,9 +134,10 @@ The configuration file (default `blog.conf`) provides the following configuratio
 |------|:------:|------:|
 | site_url | http://localhost:8000 | URI (site url) where this blog is hosted |
 | base_path | None | Path to the blog (subdirectory, if not in docroot) |
-| assets_path | _assets | Path to the manpageblog assets |
+| assets | _assets | Path to the manpageblog assets |
 | template_path | _templates | Path to the manpageblog assets |
 | output_path | docroot | Output path to the generated blog |
+| static_path | static | Optional directory copied to the output root |
 | theme | light | Defines the theme to use |
 
 ### Blog entries (elements)
